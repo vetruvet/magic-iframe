@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>IFrame Test</title>
+
+  <script src="../src/magic-iframe.js" data-role="child"></script>
+
+  <style>
+  @-webkit-keyframes height-anim {
+      0%   { height: 0; }
+      100% { height: 200px; }
+    }
+    @-moz-keyframes height-anim {
+      0%   { height: 0; }
+      100% { height: 200px; }
+    }
+    @-o-keyframes height-anim {
+      0%   { height: 0; }
+      100% { height: 200px; }
+    }
+    @keyframes height-anim {
+      0%   { height: 0; }
+      100% { height: 200px; }
+    }
+
+    body {
+      border: solid 2px red;
+    }
+
+    #animate.on {
+      -webkit-animation: height-anim 1.5s ease-in-out infinite alternate;
+      -moz-animation:    height-anim 1.5s ease-in-out infinite alternate;
+      -o-animation:      height-anim 1.5s ease-in-out infinite alternate;
+      animation:         height-anim 1.5s ease-in-out infinite alternate;
+    }
+  </style>
+</head>
+<body>
+  <h1>This is inside the iframe</h1>
+
+  <h2>iframe &lt;body&gt; is outlined in red.</h2>
+
+  <a href="#asdf">Test 1</a>
+  <a href="#asdf" target="_self">Test 2</a>
+  <a href="#asdf" target="_blank">Test 3</a>
+  <a href="#asdf" target="_top">Test 4</a>
+
+  <p id="lipsum">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam aliquam corrupti nisi, sapiente commodi sunt officia, recusandae blanditiis inventore pariatur. Harum aliquam consectetur amet, hic? Odio explicabo adipisci, nobis illum.</p>
+
+  <button type="button" id="lipsum_btn">Add more lorem ipsum</button>
+  <button type="button" id="animate_btn">Toggle height animation</button>
+
+  <div id="animate"></div>
+
+  <script>
+    (function() {
+      var lipsum = document.getElementById('lipsum_btn');
+      var animate_btn = document.getElementById('animate_btn');
+      var animate = document.getElementById('animate');
+
+      var toggleAnim = function() {
+        if (animate.className == 'on') animate.className = '';
+        else animate.className = 'on';
+      };
+
+      var addLipsum = function() {
+        var p = document.createElement('p');
+        p.innerHTML = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam aliquam corrupti nisi, sapiente commodi sunt officia, recusandae blanditiis inventore pariatur. Harum aliquam consectetur amet, hic? Odio explicabo adipisci, nobis illum.';
+        lipsum.parentNode.insertBefore(p, lipsum);
+      };
+
+      if (lipsum.addEventListener) {
+        lipsum.addEventListener('click', addLipsum);
+      } else if (lipsum.attachEvent) {
+        lipsum.attachEvent('onclick', addLipsum);
+      }
+
+      if (animate_btn.addEventListener) {
+        animate_btn.addEventListener('click', toggleAnim);
+      } else if (animate_btn.attachEvent) {
+        animate_btn.attachEvent('onclick', toggleAnim);
+      }
+    })()
+  </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Magic IFrame Demo</title>
+  <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script> -->
+</head>
+<body>
+
+<h1>Magic IFrame Demo</h1>
+
+<p>Content before iframes, followed by horizontal rule.</p>
+<hr>
+
+<div id="frame_container">
+  <script id="frame1" class="test" src="../src/magic-iframe.js" data-role="parent" data-url="http://local.dev:8080/magic-iframe/demo/frame.html"></script>
+  <noscript><iframe src="http://local.dev:8080/magic-iframe/demo/frame.html" frameborder="0"></iframe></noscript>
+</div>
+
+<hr>
+<p>Content between iframes, surrounded by horizontal rules.</p>
+<hr>
+
+<div id="frame_container2">
+  <script id="frame2" src="../src/magic-iframe.js" data-role="parent" data-url="http://local.dev:8080/magic-iframe/demo/frame.html"></script>
+  <noscript><iframe src="http://local.dev:8080/magic-iframe/demo/frame.html" frameborder="0"></iframe></noscript>
+</div>
+
+<hr>
+<p>Content after iframes, preceded by horizontal rule.</p>
+
+</body>
+</html>
