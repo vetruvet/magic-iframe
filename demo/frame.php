@@ -42,6 +42,8 @@ header('Access-Control-Allow-Origin: *');
 
   <h2>iframe &lt;body&gt; is outlined in red.</h2>
 
+  <a href="#asdf">Test</a>
+
   <p id="lipsum">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam aliquam corrupti nisi, sapiente commodi sunt officia, recusandae blanditiis inventore pariatur. Harum aliquam consectetur amet, hic? Odio explicabo adipisci, nobis illum.</p>
 
   <button type="button" id="lipsum_btn">Add more lorem ipsum</button>

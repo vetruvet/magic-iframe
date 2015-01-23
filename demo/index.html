@@ -3,19 +3,60 @@
 <head>
   <meta charset="UTF-8">
   <title>Magic IFrame Demo</title>
+  <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script> -->
 </head>
 <body>
 
 <h1>Magic IFrame Demo</h1>
 
-<p>Content before iframe, followed by horizontal rule.</p>
+<form id="url_form">
+  <label for="url">Enter a URL:</label>
+  <input type="text" id="url" />
+  <button type="SUBMIT">GO</button>
+</form>
+
+<p>Content before iframes, followed by horizontal rule.</p>
 <hr>
 
-<script src="../dist/magic-iframe.min.js" data-url="frame.php"></script>
-<noscript><iframe src="frame.php" frameborder="0"></iframe></noscript>
+<div id="frame_container">
+  <script src="../src/magic-iframe.js" data-url="frame.php"></script>
+  <noscript><iframe src="frame.php" frameborder="0"></iframe></noscript>
+</div>
 
 <hr>
-<p>Content after iframe, preceded by horizontal rule.</p>
+<p>Content between iframes, surrounded by horizontal rules.</p>
+<hr>
+
+<div id="frame_container2">
+  <script src="../src/magic-iframe.js" data-url="frame.php"></script>
+  <noscript><iframe src="frame.php" frameborder="0"></iframe></noscript>
+</div>
+
+<hr>
+<p>Content after iframes, preceded by horizontal rule.</p>
+
+<script>
+  (function() {
+    var url_field = document.getElementById('url');
+    var frame_container = document.getElementById('frame_container');
+
+    document.getElementById('url_form').addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      var url = url_field.value;
+      if (url == '') return;
+
+      if (!url.match(/^https?:\/\//i)) {
+        url = 'http://' + url;
+        url_field.value = url;
+      }
+
+      frame_container.innerHTML = '<script src="../dist/magic-iframe.min.js" data-url="' + url + '"></'+'script>';
+
+      console.log(url);
+    });
+  })();
+</script>
 
 </body>
 </html>
