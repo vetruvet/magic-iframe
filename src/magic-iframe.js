@@ -16,19 +16,13 @@
     currentScript = scripts[scripts.length - 1];
   }
 
-  var a = document.createElement('a');
-  a.href = currentScript.src;
+  var iframe = document.createElement('iframe');
 
-  var url = currentScript.getAttribute('data-url');
-  if (url == null) {
-    var a = document.createElement('a');
-    a.href = currentScript.src;
-    
-    url = window.location.protocol + '//' + a.hostname;
-    if (a.port != 80) url += ':' + a.port;
+  if (currentScript.id) {
+    iframe.id = currentScript.id;
+    currentScript.id = 'mif-script-' + currentScript.id;
   }
 
-  var iframe = document.createElement('iframe');
   iframe.src = 'about:blank';
   iframe.frameBorder = 0;
   iframe.scrolling = 'no';
@@ -46,7 +40,17 @@
   iframe.src = 'javascript:window["loadingContents"]';
 
   var _reload = iframe.reload;
-  iframe.reload = function() {
+  iframe.reload = function(url, base) {
+    if (url != null) {
+      iframe.setAttribute('data-src', url);
+    }
+
+    if (base == null) {
+      iframe.removeAttribute('data-base');
+    } else {
+      iframe.setAttribute('data-base', base);
+    }
+
     loadFrame(iframe.getAttribute('data-src'));
   };
 
@@ -60,23 +64,28 @@
     requestAnimationFrame(af);
   });
 
-  var populateFrame = function (body) {
+  var populateFrame = function (body, className) {
+    var base = iframe.getAttribute('data-base');
+    if (base != null && base != '') {
+      var baseTag = '<base href="' + base + '" />';
+      body = body.replace('<head>', '<head>' + baseTag);
+    }
+
     iframe.contentWindow.contents = body;
     iframe.style.minHeight = 0;
     iframe.src = '';
     iframe.src = 'javascript:window["contents"]';
+    iframe.className = className;
   };
 
   var loadFrame = function(url) {
-    iframe.setAttribute('data-src', url);
-
     var xhr = new XMLHttpRequest();
     if ('withCredentials' in xhr) {
       xhr.withCredentials = true;
       xhr.onreadystatechange = function() {
         if (xhr.readyState == 4) {
           if (xhr.status == 200) {
-            populateFrame(xhr.responseText);
+            populateFrame(xhr.responseText, 'mif-loaded');
           } else if (xhr.status == 0) {
             alert('Missing access control headers!');
           } else {
@@ -91,7 +100,7 @@
     } else {
       xhr = new XDomainRequest();
       xhr.onload = function() {
-        populateFrame(xhr.responseText);
+        populateFrame(xhr.responseText, 'mif-loaded');
       };
       xhr.onerror = function() {
         alert('Error loading (XDR)!');
@@ -99,13 +108,22 @@
     }
 
     if (xhr != null) {
-      populateFrame('Loading...');
+      populateFrame('Loading...', 'mif-loading');
 
       xhr.open('GET', url, true);
       xhr.send();
     }
   };
 
-  loadFrame(url);
+  var url = currentScript.getAttribute('data-url');
+  if (url == null) {
+    var a = document.createElement('a');
+    a.href = currentScript.src;
+    
+    url = window.location.protocol + '//' + a.hostname;
+    if (a.port != 80) url += ':' + a.port;
+  }
+
+  iframe.reload(url, currentScript.getAttribute('data-base') || url);
   
 })();

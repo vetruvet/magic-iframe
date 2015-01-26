@@ -19,7 +19,7 @@
 <hr>
 
 <div id="frame_container">
-  <script src="../src/magic-iframe.js" data-url="frame.php"></script>
+  <script id="frame1" src="../src/magic-iframe.js" data-url="frame.php"></script>
   <noscript><iframe src="frame.php" frameborder="0"></iframe></noscript>
 </div>
 
@@ -28,7 +28,7 @@
 <hr>
 
 <div id="frame_container2">
-  <script src="../src/magic-iframe.js" data-url="frame.php"></script>
+  <script id="frame2" src="../src/magic-iframe.js" data-url="frame.php"></script>
   <noscript><iframe src="frame.php" frameborder="0"></iframe></noscript>
 </div>
 
@@ -51,9 +51,9 @@
         url_field.value = url;
       }
 
-      frame_container.innerHTML = '<script src="../dist/magic-iframe.min.js" data-url="' + url + '"></'+'script>';
-
       console.log(url);
+
+      document.getElementById('frame1').reload('proxy.php?url=' + encodeURIComponent(url), url);
     });
   })();
 </script>
