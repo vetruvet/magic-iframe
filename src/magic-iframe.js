@@ -80,22 +80,25 @@
 
     var linkHandler = function (event) {
       var elem = event.target;
-      if (elem.nodeName !== 'A' || elem.href.match(/^javascript:/i)) return;
+      if (elem.nodeName !== 'A' || !elem.attributes['href']) return;
+
+      var href = elem.attributes['href'].value;
+      if (href.match(/^javascript:/i)) return;
       
       event.preventDefault();
 
       switch (elem.target) {
       case '_self':
-        iframe.src = elem.href;
+        iframe.src = href;
         break;
       case '_blank':
-        window.open(elem.href);
+        window.open(href);
         break;
       case '_top':
-        window.top.location = elem.href;
+        window.top.location = href;
       case '_parent':
       default:
-        window.parent.location = elem.href;
+        window.parent.location = href;
       }
     }
 
