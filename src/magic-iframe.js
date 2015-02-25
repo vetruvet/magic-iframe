@@ -57,7 +57,7 @@
 
   var frameSize = function() {
     if (!iframe.contentWindow || !iframe.contentWindow.document || !iframe.contentWindow.document.documentElement) return;
-    iframe.height = iframe.contentWindow.document.documentElement.offsetHeight;
+    iframe.height = iframe.contentWindow.document.documentElement.scrollHeight;
   };
 
   var frameReady = function ready(fn) {
@@ -139,7 +139,6 @@
   var loadFrame = function(url) {
     var xhr = new XMLHttpRequest();
     if ('withCredentials' in xhr) {
-      xhr.withCredentials = true;
       xhr.onreadystatechange = function() {
         if (xhr.readyState == 4) {
           if (xhr.status == 200) {
@@ -177,6 +176,7 @@
       populateFrame('Loading...', 'mif-loading');
 
       xhr.open('GET', url, true);
+      if ('withCredentials' in xhr) xhr.withCredentials = true;
       xhr.send(null);
     }
   };
