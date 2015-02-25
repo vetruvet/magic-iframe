@@ -42,7 +42,10 @@ header('Access-Control-Allow-Origin: *');
 
   <h2>iframe &lt;body&gt; is outlined in red.</h2>
 
-  <a href="#asdf">Test</a>
+  <a href="http://example.com">Test 1</a>
+  <a href="http://example.com" target="_self">Test 2</a>
+  <a href="http://example.com" target="_blank">Test 3</a>
+  <a href="http://example.com" target="_top">Test 4</a>
 
   <p id="lipsum">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam aliquam corrupti nisi, sapiente commodi sunt officia, recusandae blanditiis inventore pariatur. Harum aliquam consectetur amet, hic? Odio explicabo adipisci, nobis illum.</p>
 

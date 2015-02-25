@@ -10,6 +10,11 @@
            };
   })();
 
+  var Config = {
+    IS_FIREFOX: !!navigator.userAgent.match(/firefox/i),
+    FIREFOX_TIMEOUT: 50
+  };
+
   var currentScript = document.currentScript;
   if (currentScript == null) {
     var scripts = document.getElementsByTagName('script');
@@ -23,7 +28,6 @@
     currentScript.id = 'mif-script-' + currentScript.id;
   }
 
-  iframe.src = 'about:blank';
   iframe.frameBorder = 0;
   iframe.scrolling = 'no';
   iframe.allowfullscreen = 'true';
@@ -35,9 +39,6 @@
   iframe.style.minHeight = '2em';
   iframe.style.overflow = 'hidden';
   currentScript.parentNode.insertBefore(iframe, currentScript.nextSibling);
-
-  iframe.contentWindow.loadingContents = 'Loading...';
-  iframe.src = 'javascript:window["loadingContents"]';
 
   var _reload = iframe.reload;
   iframe.reload = function(url, base) {
@@ -55,15 +56,59 @@
   };
 
   var frameSize = function() {
-    if (!iframe.contentWindow) return false;
+    if (!iframe.contentWindow || !iframe.contentWindow.document || !iframe.contentWindow.document.documentElement) return;
     iframe.height = iframe.contentWindow.document.documentElement.offsetHeight;
   };
 
-  requestAnimationFrame(function af() {
-    if (frameSize() === false) return;
-    requestAnimationFrame(af);
-  });
+  var frameReady = function ready(fn) {
+    if (!iframe.contentWindow || !iframe.contentWindow.document || !iframe.contentWindow.document.documentElement) return;
 
+    if (iframe.contentWindow.document.readyState != 'loading' && iframe.contentWindow.document.readyState != 'uninitialized') {
+      fn();
+    } else if (iframe.contentWindow.document.addEventListener) {
+      iframe.contentWindow.document.addEventListener('DOMContentLoaded', fn);
+    } else {
+      iframe.contentWindow.document.attachEvent('onreadystatechange', function() {
+        if (iframe.contentWindow.document.readyState != 'loading')
+          fn();
+      });
+    }
+  };
+
+  var fixFrameLinks = function () {
+    var root = iframe.contentWindow.document.documentElement;
+
+    var linkHandler = function (event) {
+      var elem = event.target;
+      if (elem.nodeName !== 'A' || elem.href.match(/^javascript:/i)) return;
+      
+      event.preventDefault();
+
+      switch (elem.target) {
+      case '_self':
+        iframe.src = elem.href;
+        break;
+      case '_blank':
+        window.open(elem.href);
+        break;
+      case '_top':
+        window.top.location = elem.href;
+      case '_parent':
+      default:
+        window.parent.location = elem.href;
+      }
+    }
+
+    if (root.addEventListener) {
+      root.addEventListener('click', linkHandler);
+    } else {
+      root.attachEvent('onclick', function() {
+        linkHandler.call(root);
+      });
+    }
+  };
+
+  var content_counter = 0;
   var populateFrame = function (body, className) {
     var base = iframe.getAttribute('data-base');
     if (base != null && base != '') {
@@ -71,12 +116,25 @@
       body = body.replace('<head>', '<head>' + baseTag);
     }
 
-    iframe.contentWindow.contents = body;
+    delete iframe.contentWindow['mif_content' + content_counter];
+    content_counter++;
+
+    iframe.contentWindow['mif_content_' + content_counter] = body;
+
     iframe.style.minHeight = 0;
-    iframe.src = '';
-    iframe.src = 'javascript:window["contents"]';
+    iframe.src = 'javascript:window["mif_content_' + content_counter + '"]';
     iframe.className = className;
+
+    if (Config.IS_FIREFOX) {
+      setTimeout(function() {
+        frameReady(fixFrameLinks);
+      }, Config.FIREFOX_TIMEOUT);
+    } else {
+      frameReady(fixFrameLinks);
+    }
   };
+
+  populateFrame('Loading...', 'mif-loading');
 
   var loadFrame = function(url) {
     var xhr = new XMLHttpRequest();
@@ -85,7 +143,15 @@
       xhr.onreadystatechange = function() {
         if (xhr.readyState == 4) {
           if (xhr.status == 200) {
-            populateFrame(xhr.responseText, 'mif-loaded');
+            var doPopulate = function() {
+              populateFrame(xhr.responseText, 'mif-loaded');
+            };
+
+            if (Config.IS_FIREFOX) {
+              setTimeout(doPopulate, Config.FIREFOX_TIMEOUT);
+            } else {
+              doPopulate();
+            }
           } else if (xhr.status == 0) {
             alert('Missing access control headers!');
           } else {
@@ -111,7 +177,7 @@
       populateFrame('Loading...', 'mif-loading');
 
       xhr.open('GET', url, true);
-      xhr.send();
+      xhr.send(null);
     }
   };
 
@@ -125,5 +191,10 @@
   }
 
   iframe.reload(url, currentScript.getAttribute('data-base') || url);
+
+  requestAnimationFrame(function af() {
+    frameSize();
+    requestAnimationFrame(af);
+  });
   
 })();
