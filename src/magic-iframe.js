@@ -59,7 +59,7 @@
   var frameSize = function() {
     if (!iframe.contentWindow || !iframe.contentWindow.document || !iframe.contentWindow.document.documentElement) return;
     var doc = iframe.contentWindow.document.documentElement;
-    iframe.height = Config.IS_IE ? doc.scrollHeight : doc.offsetHeight;
+    iframe.height = Config.IS_IE ? doc.scrollHeight : doc.offsetHeight; // scrollHeight randomly adds 50% height in Firefox...
   };
 
   var frameReady = function ready(fn) {
@@ -118,7 +118,7 @@
     }
   };
 
-  var content_counter = 0;
+  var content_counter = 0; // change frame content variable name so frame reloads properly
   var populateFrame = function (body, className) {
     var base = iframe.getAttribute('data-base');
     if (base != null && base != '') {
@@ -136,6 +136,7 @@
     iframe.className = className;
 
     if (Config.IS_FIREFOX || Config.IS_IE) {
+      // DOM is not ready immediately in IE/Firefox but readyState='loaded' because screw logic
       setTimeout(function() {
         frameReady(fixFrameLinks);
       }, Config.FIREFOX_TIMEOUT);
@@ -174,7 +175,7 @@
       xhr = null;
     } else {
       xhr = new XDomainRequest();
-      xhr.onprogress = function(){};
+      xhr.onprogress = function(){}; // WTF IE "IE9 RTM - XDomainRequest issued requests may abort if all event handlers not specified" (http://social.msdn.microsoft.com/Forums/en-US/iewebdevelopment/thread/30ef3add-767c-4436-b8a9-f1ca19b4812e)
       xhr.onload = function() {
         populateFrame(xhr.responseText, 'mif-loaded');
       };
