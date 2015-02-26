@@ -12,6 +12,7 @@
 
   var Config = {
     IS_FIREFOX: !!navigator.userAgent.match(/firefox/i),
+    IS_IE: !!navigator.userAgent.match(/MSIE/i),
     FIREFOX_TIMEOUT: 50
   };
 
@@ -57,7 +58,8 @@
 
   var frameSize = function() {
     if (!iframe.contentWindow || !iframe.contentWindow.document || !iframe.contentWindow.document.documentElement) return;
-    iframe.height = iframe.contentWindow.document.documentElement.scrollHeight;
+    var doc = iframe.contentWindow.document.documentElement;
+    iframe.height = Config.IS_IE ? doc.scrollHeight : doc.offsetHeight;
   };
 
   var frameReady = function ready(fn) {
@@ -75,36 +77,41 @@
     }
   };
 
+  var linkHandler = function (event) {
+    var elem = event.target;
+    if (elem.nodeName !== 'A' || !elem.attributes.href) return;
+
+    var href = elem.attributes.href.value;
+    if (href.match(/^javascript:/i)) return;
+    
+    event.preventDefault();
+
+    var a = document.createElement('a');
+    a.href = href;
+
+    switch (elem.target) {
+    case '_self':
+      iframe.src = a.href;
+      break;
+    case '_blank':
+      window.open(a.href);
+      break;
+    case '_top':
+      window.top.location = a.href;
+    case '_parent':
+    default:
+      window.parent.location = a.href;
+    }
+  };
+
   var fixFrameLinks = function () {
     var root = iframe.contentWindow.document.documentElement;
 
-    var linkHandler = function (event) {
-      var elem = event.target;
-      if (elem.nodeName !== 'A' || !elem.attributes['href']) return;
-
-      var href = elem.attributes['href'].value;
-      if (href.match(/^javascript:/i)) return;
-      
-      event.preventDefault();
-
-      switch (elem.target) {
-      case '_self':
-        iframe.src = href;
-        break;
-      case '_blank':
-        window.open(href);
-        break;
-      case '_top':
-        window.top.location = href;
-      case '_parent':
-      default:
-        window.parent.location = href;
-      }
-    }
-
     if (root.addEventListener) {
+      root.removeEventListener('click', linkHandler);
       root.addEventListener('click', linkHandler);
     } else {
+      root.detachEvent('onclick', linkHandler);
       root.attachEvent('onclick', function() {
         linkHandler.call(root);
       });
@@ -128,7 +135,7 @@
     iframe.src = 'javascript:window["mif_content_' + content_counter + '"]';
     iframe.className = className;
 
-    if (Config.IS_FIREFOX) {
+    if (Config.IS_FIREFOX || Config.IS_IE) {
       setTimeout(function() {
         frameReady(fixFrameLinks);
       }, Config.FIREFOX_TIMEOUT);
@@ -167,6 +174,7 @@
       xhr = null;
     } else {
       xhr = new XDomainRequest();
+      xhr.onprogress = function(){};
       xhr.onload = function() {
         populateFrame(xhr.responseText, 'mif-loaded');
       };
