@@ -135,6 +135,12 @@
     iframe.src = 'javascript:window["mif_content_' + content_counter + '"]';
     iframe.className = className;
 
+    /* FFFFFFFFUUUUUUUUUUUUUU CHROME ... remove this dirty shit ASAP! */
+    iframe.style.display = 'inline-block';
+    setTimeout(function () {
+        iframe.style.display = 'block';
+    }, 10);
+
     if (Config.IS_FIREFOX || Config.IS_IE) {
       // DOM is not ready immediately in IE/Firefox but readyState='loaded' because screw logic
       setTimeout(function() {
