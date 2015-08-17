@@ -78,13 +78,17 @@
   };
 
   var linkHandler = function (event) {
-    var elem = event.target;
+    var elem = (event.target || event.srcElement);
     if (elem.nodeName !== 'A' || !elem.attributes.href) return;
 
     var href = elem.attributes.href.value;
     if (href.match(/^javascript:/i)) return;
     
-    event.preventDefault();
+    if (event.preventDefault) {
+      event.preventDefault();
+    } else {
+      event.returnValue = false;
+    }
 
     var a = document.createElement('a');
     a.href = href;
