@@ -158,6 +158,9 @@
 
   populateFrame('Loading...', 'mif-loading');
 
+  var useCredentials = !!currentScript.getAttribute('data-credentials');
+  debugger;
+
   var loadFrame = function(url) {
     var xhr = new XMLHttpRequest();
     if ('withCredentials' in xhr) {
@@ -199,7 +202,7 @@
       populateFrame('Loading...', 'mif-loading');
 
       xhr.open('GET', url, true);
-      if ('withCredentials' in xhr) xhr.withCredentials = true;
+      if (useCredentials && ('withCredentials' in xhr)) xhr.withCredentials = true;
       xhr.send(null);
     }
   };
