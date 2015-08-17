@@ -126,13 +126,14 @@
       body = body.replace('<head>', '<head>' + baseTag);
     }
 
-    delete iframe.contentWindow['mif_content' + content_counter];
+    iframe.contentWindow['mif_content'] = iframe.contentWindow['mif_content'] || {};
+    delete iframe.contentWindow['mif_content']['body_' + content_counter];
     content_counter++;
 
-    iframe.contentWindow['mif_content_' + content_counter] = body;
+    iframe.contentWindow['mif_content']['body_' + content_counter] = body;
 
     iframe.style.minHeight = 0;
-    iframe.src = 'javascript:window["mif_content_' + content_counter + '"]';
+    iframe.src = 'javascript:window["mif_content"]["body_' + content_counter + '"]';
     iframe.className = className;
 
     /* FFFFFFFFUUUUUUUUUUUUUU CHROME ... remove this dirty shit ASAP! */
