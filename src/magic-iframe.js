@@ -113,7 +113,7 @@
     } else {
       root.detachEvent('onclick', linkHandler);
       root.attachEvent('onclick', function() {
-        linkHandler.call(root);
+        linkHandler.apply(root, arguments);
       });
     }
   };
