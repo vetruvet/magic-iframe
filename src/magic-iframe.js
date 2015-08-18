@@ -59,7 +59,11 @@
   var frameSize = function() {
     if (!iframe.contentWindow || !iframe.contentWindow.document || !iframe.contentWindow.document.documentElement) return;
     var doc = iframe.contentWindow.document.documentElement;
-    iframe.height = Config.IS_IE ? doc.scrollHeight : doc.offsetHeight; // scrollHeight randomly adds 50% height in Firefox...
+
+    var height = Config.IS_IE ? doc.scrollHeight : doc.offsetHeight; // scrollHeight randomly adds 50% height in Firefox...
+
+    iframe.height = height
+    iframe.style.height = height + 'px';
   };
 
   var frameReady = function ready(fn) {
