@@ -163,7 +163,6 @@
   populateFrame('Loading...', 'mif-loading');
 
   var useCredentials = !!currentScript.getAttribute('data-credentials');
-  debugger;
 
   var loadFrame = function(url) {
     var xhr = new XMLHttpRequest();
@@ -192,6 +191,10 @@
       iframe.style.minHeight = 0;
       xhr = null;
     } else {
+      if (url.match(/^https?:\/\//i) && !url.match(new RegExp('^' + window.location.protocol + '//', 'i'))) {
+        url = url.replace(/^https?:\/\//i, window.location.protocol + '//');
+      }
+
       xhr = new XDomainRequest();
       xhr.onprogress = function(){}; // WTF IE "IE9 RTM - XDomainRequest issued requests may abort if all event handlers not specified" (http://social.msdn.microsoft.com/Forums/en-US/iewebdevelopment/thread/30ef3add-767c-4436-b8a9-f1ca19b4812e)
       xhr.onload = function() {
