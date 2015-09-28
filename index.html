@@ -52,7 +52,7 @@
 
 <pre>
 &lt;script src="magic-iframe.min.js" data-role="parent" data-url="{{IFRAME_URL}}"&gt;&lt;/script&gt;
-<noscript><iframe src="{{IFRAME_URL}}" frameborder="0" style="width:100%;height:{{IFRAME_HEIGHT}}"></iframe></noscript>
+&lt;noscript&gt;&lt;iframe src="{{IFRAME_URL}}" frameborder="0" style="width:100%;height:{{IFRAME_HEIGHT}}"&gt;&lt;/iframe&gt;&lt;/noscript&gt;
 </pre>
 
           <p>The script will automatically write the <code>iframe</code> tag for you in its place.</p>
@@ -62,7 +62,7 @@
           <h4>2. Existing IFrame tag, method 1</h4>
 
 <pre>
-<iframe id="{{IFRAME_ID}}" src="{{IFRAME_URL}}" frameborder="0" style="width:100%;height:{{IFRAME_HEIGHT}}"></iframe>
+&lt;iframe id="{{IFRAME_ID}}" src="{{IFRAME_URL}}" frameborder="0" style="width:100%;height:{{IFRAME_HEIGHT}}"&gt;&lt;/iframe&gt;
 &lt;script src="magic-iframe.min.js" data-role="parent" data-target="#{{IFRAME_ID}}"&gt;&lt;/script&gt;
 </pre>
 
@@ -73,7 +73,7 @@
           <h4>3. Existing IFrame tag, method 2</h4>
 
 <pre>
-<iframe id="{{IFRAME_ID}}" src="{{IFRAME_URL}}" frameborder="0" style="width:100%;height:{{IFRAME_HEIGHT}}"></iframe>
+&lt;iframe id="{{IFRAME_ID}}" src="{{IFRAME_URL}}" frameborder="0" style="width:100%;height:{{IFRAME_HEIGHT}}"&gt;&lt;/iframe&gt;
 &lt;script src="magic-iframe.min.js"&gt;&lt;/script&gt;
 &lt;script&gt;
   MagicIframe.parent('#{{IFRAME_ID}}').init();
