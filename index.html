@@ -41,7 +41,7 @@
           <p>Include the following <code>script</code> tag <em>inside</em> the <code>iframe</code></p>
 
 <pre>
-<script src="magic-iframe.min.js" data-role="child"></script>
+&lt;script src="magic-iframe.min.js" data-role="child"&gt;&lt;/script&gt;
 </pre>
 
           <h3><a id="usage-embed" class="anchor" href="#usage-embed" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage &mdash; Embedding the IFrame</h3>
@@ -51,7 +51,7 @@
           <h4>1. No existing IFrame tag</h4>
 
 <pre>
-<script src="magic-iframe.min.js" data-role="parent" data-url="{{IFRAME_URL}}"></script>
+&lt;script src="magic-iframe.min.js" data-role="parent" data-url="{{IFRAME_URL}}"&gt;&lt;/script&gt;
 <noscript><iframe src="{{IFRAME_URL}}" frameborder="0" style="width:100%;height:{{IFRAME_HEIGHT}}"></iframe></noscript>
 </pre>
 
@@ -63,8 +63,7 @@
 
 <pre>
 <iframe id="{{IFRAME_ID}}" src="{{IFRAME_URL}}" frameborder="0" style="width:100%;height:{{IFRAME_HEIGHT}}"></iframe>
-<script src="magic-iframe.min.js" data-role="parent" data-target="#{{IFRAME_ID}}"></script>
-<noscript></noscript>
+&lt;script src="magic-iframe.min.js" data-role="parent" data-target="#{{IFRAME_ID}}"&gt;&lt;/script&gt;
 </pre>
 
           <p>The <code>data-target</code> attribute can accept a selector that can be passed to <code>document.querySelectorAll</code> (jQuery will be used as a fallback). If the browser does not support <code>document.querySelectorAll</code> and jQuery is not present, only simple ID selectors are allowed.</p>
@@ -75,14 +74,13 @@
 
 <pre>
 <iframe id="{{IFRAME_ID}}" src="{{IFRAME_URL}}" frameborder="0" style="width:100%;height:{{IFRAME_HEIGHT}}"></iframe>
-<script src="magic-iframe.min.js"></script>
-<script>
+&lt;script src="magic-iframe.min.js"&gt;&lt;/script&gt;
+&lt;script&gt;
   MagicIframe.parent('#{{IFRAME_ID}}').init();
   // MagicIframe.parent('[selector]').init();
   // MagicIframe.parent(document.querySelector('[selector')).init();
   // $('[selector]').magicIframe();
-</script>
-<noscript></noscript>
+&lt;/script&gt;
 </pre>
 
           <p>The selector rules above apply here. This method may be used alongside the two other methods without any conflicts.</p>
