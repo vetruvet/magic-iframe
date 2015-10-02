@@ -12,6 +12,24 @@ This script relies on `window.postMessage` for communication between the parent 
 
 It requires JavaScript to work and there is no non-JavaScript fallback. Put down your tinfoil hats.
 
+## Installation
+
+**Bower:**
+
+```
+bower install magic-iframe --save
+```
+
+**NPM:**
+
+```
+npm install magic-iframe --save
+```
+
+**Manual:**
+
+Download the `dist/magic-iframe.min.js` file to wherever you want.
+
 ## Usage — Inside IFrame
 
 Include the following `script` tag inside the `iframe`:
