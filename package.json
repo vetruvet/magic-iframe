@@ -1,5 +1,6 @@
 {
   "name": "magic-iframe",
+  "version": "0.9.1",
   "description": "Magic IFrame Script",
   "main": "dist/magic-iframe.min.js",
   "scripts": {
