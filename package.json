@@ -1,8 +1,7 @@
 {
   "name": "magic-iframe",
-  "version": "0.9.0",
   "description": "Magic IFrame Script",
-  "main": "Gruntfile.js",
+  "main": "dist/magic-iframe.min.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -16,5 +15,36 @@
     "grunt-contrib-uglify": "^0.4.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-contrib-clean": "~0.6.0"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/vetruvet/magic-iframe/issues"
+  },
+  "keywords": [
+    "magic",
+    "iframe",
+    "responsive",
+    "iframe",
+    "iframe"
+  ],
+  "author": "vetruvet",
+  "license": "MIT",
+  "autoupdate": {
+    "source": "git",
+    "target": "git://github.com/vetruvet/magic-iframe.git",
+    "basePath": "dist",
+    "files": [
+      "magic-iframe.min.js",
+      "magic-iframe.min.map"
+    ]
+  },
+  "npmName": "magic-iframe",
+  "npmFileMap": [
+    {
+      "basePath": "dist",
+      "files": [
+        "magic-iframe.min.js",
+        "magic-iframe.min.map"
+      ]
+    }
+  ]
 }
