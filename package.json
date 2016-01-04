@@ -29,15 +29,6 @@
   ],
   "author": "vetruvet",
   "license": "MIT",
-  "autoupdate": {
-    "source": "git",
-    "target": "git://github.com/vetruvet/magic-iframe.git",
-    "basePath": "dist",
-    "files": [
-      "magic-iframe.min.js",
-      "magic-iframe.min.map"
-    ]
-  },
   "npmName": "magic-iframe",
   "npmFileMap": [
     {
