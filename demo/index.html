@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Magic IFrame Demo</title>
+</head>
+<body>
+
+<h1>Magic IFrame Demo</h1>
+
+<p>Content before iframes, followed by horizontal rule.</p>
+<hr>
+
+<div id="frame_container">
+  <script id="frame1" class="test" src="//cdn.rawgit.com/vetruvet/magic-iframe/master/dist/magic-iframe.min.js" data-role="parent" data-url="frame.html"></script>
+  <noscript><iframe src="frame.html" frameborder="0"></iframe></noscript>
+</div>
+
+<hr>
+<p>Content between iframes, surrounded by horizontal rules.</p>
+<hr>
+
+<div id="frame_container2">
+  <script id="frame2" src="//cdn.rawgit.com/vetruvet/magic-iframe/master/dist/magic-iframe.min.js" data-role="parent" data-url="frame.html"></script>
+  <noscript><iframe src="frame.html" frameborder="0"></iframe></noscript>
+</div>
+
+<hr>
+<p>Content after iframes, preceded by horizontal rule.</p>
+
+</body>
+</html>
