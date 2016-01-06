@@ -4,7 +4,7 @@ Easy, responsive IFrames - Magic!
 
 ## What is this "magic" IFrame?
 
-Magic IFrame is a script to make `iframe`s responsive.
+Magic IFrame is a script to make `iframe`s responsive. Here's a [simple demo](http://magic-iframe.com/demo/).
 
 ## Supported Browsers
 
