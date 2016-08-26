@@ -192,7 +192,7 @@
     iframe.src = url;
     iframe.frameBorder = 0;
     iframe.scrolling = 'no';
-    iframe.allowfullscreen = 'true';
+    iframe.allowFullscreen = 'true';
     iframe.style.display = 'block';
     iframe.style.webkitBoxSizing = 'border-box';
     iframe.style.mozBoxSizing = 'border-box';
